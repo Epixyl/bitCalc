@@ -18,16 +18,21 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group form-group-lg row">
+                    <div class="form-group form-group-lg row" id="arg1form">
                         <label for="arg1" class="col-sm-2 control-label" style="vertical-align:middle;">Operand 1</label>
                         <div class="col-sm-10">
                             <input id="arg1" class="form-control input-lg" type="text" style="font-family:monospace;">
+                            <span class="help-block" style="display:none" id="nanError1">Operand must be a valid integer.</span>
+                            <span class="help-block" style="display:none" id="ofError1">Operand must be within the size of a word (0xFFFFFFFF).</span>
                         </div>
                     </div>
-                    <div class="form-group form-group-lg row">
+                    <div class="form-group form-group-lg row" id="arg2form">
                         <label for="arg2" class="col-sm-2 control-label">Operand 2</label>
                         <div class="col-sm-10">
                             <input id="arg2" class="form-control input-lg" type="text" style="font-family:monospace;">
+                            <span class="help-block" style="display:none" id="nanError2">Operand must be a valid integer.</span>
+                            <span class="help-block" style="display:none" id="ofError2">Operand must be within the size of a word (0xFFFFFFFF).</span>
+                            <span class="help-block" style="display:none" id="notError2">Not (~) takes in only 1 argument.</span>
                         </div>
                     </div>
                 </div>
@@ -98,22 +103,37 @@
     <script>
         var checkInputs = function(a1, a2){
             console.log("wow");
-            if(isNaN(a1) && isNaN(a2)){
-                alert("The inputs must be valid 32-bit numbers.");
-            } else if(isNaN(a1)){
-                alert("Argument 1 must be a valid 32-bit number.");
-            } else if(isNaN(a2)){
-                alert("Argument 2 must be a valid 32-bit number.");
-            } else if(a1 > 0xFFFFFFFF && a2 > 0xFFFFFFFF){
-                alert("The inputs must be within the size of a word (0xFFFFFFFF).");
-            } else if(a1 > 0xFFFFFFFF){
-                alert("Argument 1 must be within the size of a word (0xFFFFFFFF).");
-            } else if(a2 > 0xFFFFFFFF){
-                alert("Argument 2 must be within the size of a word (0xFFFFFFFF).");
-            } else {
-                return true;
+            document.getElementById("arg1form").className = "form-group form-group-lg row";
+            document.getElementById("arg2form").className = "form-group form-group-lg row";
+            document.getElementById("nanError1").style.display = "none";
+            document.getElementById("nanError2").style.display = "none";
+            document.getElementById("ofError1").style.display = "none";
+            document.getElementById("ofError2").style.display = "none";
+            document.getElementById("notError2").style.display = "none";
+            var error1 = false;
+            var error2 = false;
+            if(isNaN(a1)){
+                document.getElementById("arg1form").className = "form-group form-group-lg row has-error";
+                document.getElementById("nanError1").style.display = "";
+                error1 = true;
             }
-            return false;
+            if(isNaN(a2)){
+                document.getElementById("arg2form").className = "form-group form-group-lg row has-error";
+                document.getElementById("nanError2").style.display = "";
+                error2 = true;
+            }
+            if(!error1 && a1 > 0xFFFFFFFF){
+                document.getElementById("arg1form").className = "form-group form-group-lg row has-error";
+                document.getElementById("ofError1").style.display = "";
+                error1 = true;
+            }
+            if(!error2 && a2 > 0xFFFFFFFF){
+                document.getElementById("arg2form").className = "form-group form-group-lg row has-error";
+                document.getElementById("ofError2").style.display = "";
+                error2 = true;
+            }
+
+            return !error1 && !error2;
         }
         var calcAnd = function(){
             var a1 = parseInt(document.getElementById("arg1").value);
@@ -175,7 +195,8 @@
         var calcNot = function(){
             var a1 = parseInt(document.getElementById("arg1").value);
             if(document.getElementById("arg2").value != ""){
-                alert("Not (~) only takes one argument.");
+                document.getElementById("arg2form").className = "form-group form-group-lg row has-error";
+                document.getElementById("notError2").style.display = "";
             } else if(checkInputs(a1, 0)){
                 var ans = ((~a1) & 0xFFFFFFFF) >>> 0;
                 document.getElementById("hist").value = "            ~  " + "0x"+("00000000"+a1.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
