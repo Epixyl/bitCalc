@@ -9,10 +9,8 @@
             <h1>Bitwise Word Calculator</h1>
             <p>
                 Enter unsigned 32-bit hex or decimal integers and click on buttons to perform operations. <br/>
-                Hover over operations for further clarification. <br/>
-                The results will appear in operand 1 and in the bottom history feed.
+                The results will appear in operand 1 and in the history for faster calculations.
             </p>
-
         </div>
 
     </div>
@@ -36,6 +34,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
+                    <label>Bitwise Operators</label>
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
                             <button class="btn btn-primary" onclick="calcAnd()" data-toggle="tooltip" title="AND (&)">AND</button>
@@ -50,8 +49,10 @@
                             <button class="btn btn-primary" onclick="calcNot()" data-toggle="tooltip" title="NOT (~)">NOT</button>
                         </div>
                     </div>
+                    <br/>
                 </div>
                 <div class="col-md-4">
+                    <label>Shift Left/Right</label>
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
                             <button class="btn btn-primary" onclick="calcSll()" data-toggle="tooltip" title="Shift Left by OP2 # of bits. (<<)">SLL / SLA</button>
@@ -63,8 +64,10 @@
                             <button class="btn btn-primary" onclick="calcSra()" data-toggle="tooltip" title="Shift Right Arithmetic by OP2 # of bits. Sign bit is maintained. (>>)">SRA</button>
                         </div>
                     </div>
+                    <br/>
                 </div>
                 <div class="col-md-4">
+                    <label>Rotations and Addition</label>
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
                             <button class="btn btn-primary" onclick="calcRl()" data-toggle="tooltip" title="Rotate Left by OP2 # of bits.">RL</button>
@@ -79,9 +82,9 @@
                             <button class="btn btn-primary" onclick="calcMinus()" data-toggle="tooltip" title="Minus (-)">-</button>
                         </div>
                     </div>
+                    <br/>
                 </div>
             </div>
-            <br/>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group form-group-lg">
