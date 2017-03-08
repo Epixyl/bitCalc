@@ -1,0 +1,214 @@
+<html>
+<head>
+    <title>Bitwise Word Calculator</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container" style="padding-left:10px;padding-right:10px;padding-top:10px">
+        <div class="jumbotron">
+            <h1>Bitwise Word Calculator</h1>
+            <p>
+                Enter unsigned 32-bit hex or decimal numbers and click on buttons to perform operations. The results will appear in operand 1 and in the bottom history feed.
+            </p>
+
+        </div>
+
+    </div>
+    <div class="container" style="padding-left:10px;padding-right:10px;padding-bottom:10px;">
+        <div class="jumbotron">
+
+            <div class="form-group row">
+                <label for="arg1" class="col-xs-3 col-form-label">Operand 1</label>
+                <div class="col-xs-9">
+                    <input id="arg1" class="form-control" type="text" style="font-family:monospace;">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="arg2" class="col-xs-3 col-form-label">Operand 2</label>
+                <div class="col-xs-9">
+                    <input id="arg2" class="form-control" type="text" style="font-family:monospace;">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcAnd()" data-toggle="tooltip" title="AND (&)">AND</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcOr()" data-toggle="tooltip" title="OR (|)">OR</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcXor()" data-toggle="tooltip" title="XOR (^)">XOR</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcNot()" data-toggle="tooltip" title="NOT (~)">NOT</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcSll()" data-toggle="tooltip" title="Shift Left Logical (<<)">SLL</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcSrl()" data-toggle="tooltip" title="Shift Right Logical (>>>)">SRL</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcSra()" data-toggle="tooltip" title="Shift Right Arithmetic (>>)">SRA</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcRl()" data-toggle="tooltip" title="Rotate Left">RL</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcRr()" data-toggle="tooltip" title="Rotate Right">RR</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcPlus()" data-toggle="tooltip" title="Plus (+)">+</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" onclick="calcMinus()" data-toggle="tooltip" title="Minus (-)">-</button>
+                    </div>
+                </div>
+            </div>
+            <div style="padding-top:5px;">
+                <textarea class="form-control" style="width:100%;height:100%;font-family:monospace;" id="hist"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        var checkInputs = function(a1, a2){
+            console.log("wow");
+            if(isNaN(a1) && isNaN(a2)){
+                alert("The inputs must be valid 32-bit numbers.");
+            } else if(isNaN(a1)){
+                alert("Argument 1 must be a valid 32-bit number.");
+            } else if(isNaN(a2)){
+                alert("Argument 2 must be a valid 32-bit number.");
+            } else if(a1 > 0xFFFFFFFF && a2 > 0xFFFFFFFF){
+                alert("The inputs must be within the size of a word (0xFFFFFFFF).");
+            } else if(a1 > 0xFFFFFFFF){
+                alert("Argument 1 must be within the size of a word (0xFFFFFFFF).");
+            } else if(a2 > 0xFFFFFFFF){
+                alert("Argument 2 must be within the size of a word (0xFFFFFFFF).");
+            } else {
+                return true;
+            }
+            return false;
+        }
+        var calcAnd = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 & a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + "  &  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var calcOr = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 | a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + "  |  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var calcXor = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 ^ a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + "  ^  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var calcSll = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 << a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " <<  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+            }
+        }
+        var calcSrl = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 >>> a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " >>  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+            }
+        }
+        var calcSra = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 >> a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " >>> " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+            }
+        }
+        var calcNot = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            if(document.getElementById("arg2").value != ""){
+                alert("Not (~) only takes one argument.");
+            } else if(checkInputs(a1, 0)){
+                var ans = ((~a1) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "            ~  " + "0x"+("00000000"+a1.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var calcRl = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = (((a1 << a2) | (a1 >>> (32 - a2))) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " rL  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+            }
+        }
+        var calcRr = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = (((a1 >>> a2) | (a1 << (32 - a2))) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " rR  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+            }
+        }
+        var calcPlus = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 + a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + "  +  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var calcMinus = function(){
+            var a1 = parseInt(document.getElementById("arg1").value);
+            var a2 = parseInt(document.getElementById("arg2").value);
+            if(checkInputs(a1, a2)){
+                var ans = ((a1 - a2) & 0xFFFFFFFF) >>> 0;
+                document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + "  -  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
+                document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = "";
+            }
+        }
+        var clear = function(){
+            document.getElementById("hist").value = "";
+        }
+    </script>
+</body>
+</html>
