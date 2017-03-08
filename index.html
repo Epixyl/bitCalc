@@ -8,7 +8,9 @@
         <div class="jumbotron">
             <h1>Bitwise Word Calculator</h1>
             <p>
-                Enter unsigned 32-bit hex or decimal integers and click on buttons to perform operations. The results will appear in operand 1 and in the bottom history feed.
+                Enter unsigned 32-bit hex or decimal integers and click on buttons to perform operations. <br/>
+                Hover over operations for further clarification. <br/>
+                The results will appear in operand 1 and in the bottom history feed.
             </p>
 
         </div>
@@ -52,23 +54,23 @@
                 <div class="col-md-4">
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary" onclick="calcSll()" data-toggle="tooltip" title="Shift Left Logical (<<)">SLL/SLA</button>
+                            <button class="btn btn-primary" onclick="calcSll()" data-toggle="tooltip" title="Shift Left by OP2 # of bits. (<<)">SLL / SLA</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary" onclick="calcSrl()" data-toggle="tooltip" title="Shift Right Logical (>>>)">SRL</button>
+                            <button class="btn btn-primary" onclick="calcSrl()" data-toggle="tooltip" title="Shift Right Logical by OP2 # of bits. Sign bit is not maintained. (>>>)">SRL</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary" onclick="calcSra()" data-toggle="tooltip" title="Shift Right Arithmetic (>>)">SRA</button>
+                            <button class="btn btn-primary" onclick="calcSra()" data-toggle="tooltip" title="Shift Right Arithmetic by OP2 # of bits. Sign bit is maintained. (>>)">SRA</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary" onclick="calcRl()" data-toggle="tooltip" title="Rotate Left">RL</button>
+                            <button class="btn btn-primary" onclick="calcRl()" data-toggle="tooltip" title="Rotate Left by OP2 # of bits.">RL</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary" onclick="calcRr()" data-toggle="tooltip" title="Rotate Right">RR</button>
+                            <button class="btn btn-primary" onclick="calcRr()" data-toggle="tooltip" title="Rotate Right by OP2 # of bits.">RR</button>
                         </div>
                         <div class="btn-group" role="group">
                             <button class="btn btn-primary" onclick="calcPlus()" data-toggle="tooltip" title="Plus (+)">+</button>
