@@ -211,6 +211,7 @@
                 var ans = (((a1 << a2) | (a1 >>> (32 - a2))) & 0xFFFFFFFF) >>> 0;
                 document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " rL  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
                 document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = a2 % 32;
             }
         }
         var calcRr = function(){
@@ -220,6 +221,7 @@
                 var ans = (((a1 >>> a2) | (a1 << (32 - a2))) & 0xFFFFFFFF) >>> 0;
                 document.getElementById("hist").value = "0x"+("00000000"+a1.toString(16)).substr(-8) + " rR  " + "0x"+("00000000"+a2.toString(16)).substr(-8) + " = " + "0x"+("00000000"+ans.toString(16)).substr(-8) + "\n" + document.getElementById("hist").value ;
                 document.getElementById("arg1").value = "0x"+("00000000"+ans.toString(16)).substr(-8);
+                document.getElementById("arg2").value = a2 % 32;
             }
         }
         var calcPlus = function(){
